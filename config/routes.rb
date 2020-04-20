@@ -1,3 +1,10 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :student_profiles
+  resources :staff_profiles
+
+  devise_for :users, controllers: {
+      sessions: 'users/sessions'
+  }
+
+  root 'home#index'
 end
