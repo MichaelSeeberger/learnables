@@ -1,0 +1,21 @@
+<%= bootstrap_form_with(model: student_profile, local: true) do |form| %>
+  <% if student_profile.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(student_profile.errors.count, "error") %> prohibited this student_profile from being saved:</h2>
+
+      <ul>
+        <% student_profile.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.text_field :name, autofocus: true %>
+
+  <%= form.fields_for :user do |user_form| %>
+    <%= render 'users/registrations/user_fields', form: user_form %>
+  <% end %>
+
+  <%= form.submit %>
+<% end %>

@@ -1,3 +1,16 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  get 'user/edit_password'
+  patch 'user/edit_password', to: 'user#update_password'
+
+  get 'user/edit_email'
+  patch 'user/edit_email', to: 'user#update_email'
+
+  resources :student_profiles
+  resources :staff_profiles
+
+  devise_for :users, controllers: {
+      sessions: 'users/sessions'
+  }
+
+  root 'home#index'
 end

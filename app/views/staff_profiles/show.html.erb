@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @staff_profile.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @staff_profile.user.email %>
+</p>
+
+<%= link_to 'Edit', edit_staff_profile_path(@staff_profile), class: 'btn btn-cancel' %>
+<%= link_to 'Back', staff_profiles_path, class: 'btn btn-back' %>
