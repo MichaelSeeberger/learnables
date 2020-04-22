@@ -1,4 +1,4 @@
-<div class="position-absolute w-100 d-flex flex-column p-4" id="toastsContainer">
+<div class="position-absolute d-flex flex-column pr-2 pt-2" id="toastsContainer">
   <% flash.each do |type, message| %>
     <div class="toast toast-<%= type.gsub('notice', 'info').gsub('alert', 'danger') %> ml-auto" role="alert" data-delay="60000" data-autohide="true">
       <div class="toast-header">
