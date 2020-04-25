@@ -1,6 +1,4 @@
 class UserController < ApplicationController
-  before_action :authenticate_user!
-
   def edit_password
     @user = current_user
     authorize @user
