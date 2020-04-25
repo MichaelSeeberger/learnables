@@ -26,6 +26,7 @@ class StudentProfilesController < ApplicationController
   # POST /student_profiles.json
   def create
     @student_profile = StudentProfile.new(create_student_profile_params)
+    authorize @student_profile
 
     respond_to do |format|
       if (not @student_profile.user.nil?) and @student_profile.user.save
@@ -66,6 +67,7 @@ class StudentProfilesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_student_profile
       @student_profile = StudentProfile.find(params[:id])
+      authorize @student_profile
     end
 
     # Only allow a list of trusted parameters through.

@@ -27,10 +27,16 @@
     <ul class="navbar-nav">
       <% if user_signed_in? %>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
+          <a class="nav-link dropdown-toggle" href="#" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= current_user.profile.name %>
+          </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownProfile">
-            <%= link_to 'Edit', edit_current_users_profile_path, class: 'dropdown-item' %>
-            <%= link_to 'Change Email', user_edit_email_path, class: 'dropdown-item' %>
+            <% if policy(current_user.profile).edit? %>
+              <%= link_to 'Edit', edit_current_users_profile_path, class: 'dropdown-item' %>
+            <% end %>
+            <% if policy(:user).edit_email? %>
+              <%= link_to 'Change Email', user_edit_email_path, class: 'dropdown-item' %>
+            <% end %>
             <%= link_to 'Change Password', user_edit_password_path, class: 'dropdown-item' %>
             <div class="dropdown-divider"></div>
             <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>

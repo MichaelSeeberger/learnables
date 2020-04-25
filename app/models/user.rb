@@ -8,13 +8,6 @@ class User < ApplicationRecord
   belongs_to :staff_profile, optional: true
   belongs_to :student_profile, optional: true
 
-
-  after_create :assign_default_role
-
-  def assign_default_role
-    self.add_role(:user) if self.roles.blank?
-  end
-
   def profile
     if self.staff_profile_id.nil?
       self.student_profile

@@ -1,0 +1,2 @@
+class StaffProfilePolicy < ApplicationPolicy
+end

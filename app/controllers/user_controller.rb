@@ -1,12 +1,12 @@
 class UserController < ApplicationController
-  before_action :authenticate_user!
-
   def edit_password
     @user = current_user
+    authorize @user
   end
 
   def update_password
     @user = current_user
+    authorize @user
     unless @user.valid_password?(params[:users][:password])
       flash.now[:alert] = 'Did not update password'
       @user.errors.add(:current_password, 'Wrong password')
@@ -26,10 +26,12 @@ class UserController < ApplicationController
 
   def edit_email
     @user = current_user
+    authorize @user
   end
 
   def update_email
     @user = current_user
+    authorize @user
     unless @user.valid_password?(params[:users][:password])
       flash.now[:alert] = 'Wrong password'
       @user.errors.add(:password, 'Wrong Password')
