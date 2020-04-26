@@ -8,10 +8,7 @@ require 'rails/test_help'
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
-  #parallelize(workers: :number_of_processors)
-
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  #fixtures :all
+  parallelize(workers: :number_of_processors)
 
   include FactoryBot::Syntax::Methods
 
