@@ -11,6 +11,9 @@ class ApplicationPolicy
   end
 
   def show?
+    [:admin, :editor, :viewer].each do |role|
+      return true if user.has_role? role, record
+    end
     false
   end
 
@@ -32,7 +35,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    false
+    user.has_role? :admin, record
   end
 
   class Scope

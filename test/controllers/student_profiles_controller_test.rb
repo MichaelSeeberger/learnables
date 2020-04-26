@@ -1,8 +1,10 @@
 require 'test_helper'
 
 class StudentProfilesControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
-    @student_profile = student_profiles(:lisa)
+    @student_profile = create(:student_profile)
 
     @valid_student_params = {
         name: 'lisa',
@@ -12,6 +14,10 @@ class StudentProfilesControllerTest < ActionDispatch::IntegrationTest
             password_confirmation: 'password'
         }
     }
+
+    admin_profile = create(:admin_profile)
+    @admin = admin_profile.user
+    sign_in @admin
   end
 
   test "should get index" do

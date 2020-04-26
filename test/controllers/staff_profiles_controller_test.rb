@@ -1,8 +1,10 @@
 require 'test_helper'
 
 class StaffProfilesControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
-    @staff_profile = staff_profiles(:skinner)
+    @staff_profile = create(:staff_profile)
 
     @valid_staff_attributes = {
         name: @staff_profile.name,
@@ -12,6 +14,10 @@ class StaffProfilesControllerTest < ActionDispatch::IntegrationTest
             password_confirmation: 'password'
         }
     }
+
+    admin_profile = create(:admin_profile)
+    @admin = admin_profile.user
+    sign_in @admin
   end
 
   test "should get index" do

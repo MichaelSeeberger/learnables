@@ -1,6 +1,11 @@
-
+.btn-new,
 .btn-back,
 .btn-edit,
+.btn-show,
 .btn-cancel {
   @extend .btn-outline-secondary;
+}
+
+.btn-delete {
+  @extend .btn-outline-danger;
 }
