@@ -10,5 +10,9 @@
   <%= @student_profile.user.email %>
 </p>
 
-<%= link_to 'Edit', edit_student_profile_path(@student_profile), class: 'btn btn-edit' %>
-<%= link_to 'Back', student_profiles_path, class: 'btn btn-back' %>
+<% if policy(@student_profile).edit? %>
+  <%= link_to 'Edit', edit_student_profile_path(@student_profile), class: 'btn btn-edit' %>
+<% end %>
+<% if policy(StudentProfile).index? %>
+  <%= link_to 'Show all Profiles', student_profiles_path, class: 'btn btn-back' %>
+<% end %>
