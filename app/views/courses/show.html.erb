@@ -6,8 +6,10 @@
 </p>
 
 <div>
-  <p>Description</p>
-  <%= @course.description %>
+  <strong>Description</strong>
+  <div class="math-content">
+    <%= @course.description %>
+  </div>
 </div>
 
 <p>
@@ -17,3 +19,5 @@
 
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Back', courses_path %>
+
+<%= render 'layouts/application/mathjax_init' %>

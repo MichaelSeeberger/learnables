@@ -16,7 +16,7 @@
         <div class="card-header">
           <h5><%= course.title %></h5>
         </div>
-        <div class="card-body">
+        <div class="card-body math-content">
           <%= course.description %>
         </div>
         <% if policy(course).edit? or policy(course).destroy? %>
@@ -37,3 +37,5 @@
 <% if policy(Course).new? %>
   <%= link_to 'New Course', new_course_path, class: 'btn btn-new' %>
 <% end %>
+
+<%= render 'layouts/application/mathjax_init' %>
