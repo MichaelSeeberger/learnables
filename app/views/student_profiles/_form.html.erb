@@ -17,5 +17,11 @@
     <%= render 'users/registrations/user_fields', form: user_form, profile: student_profile %>
   <% end %>
 
-  <%= form.submit %>
+  <div class="mt-4">
+    <% if student_profile.persisted? %>
+      <%= link_to 'Cancel', student_profile_path(student_profile), class: 'btn btn-cancel' %>
+    <% end %>
+
+    <%= form.submit class: 'btn btn-submit' %>
+  </div>
 <% end %>

@@ -15,5 +15,10 @@
 
   <%= form.rich_text_area_without_bootstrap :description %>
 
-  <%= form.submit %>
+  <div class="mt-4">
+    <% if course.persisted? %>
+      <%= link_to 'Cancel', course_path(course), class: 'btn btn-cancel' %>
+    <% end %>
+    <%= form.submit class: 'btn btn-submit' %>
+  </div>
 <% end %>
