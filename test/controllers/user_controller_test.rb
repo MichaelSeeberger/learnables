@@ -15,7 +15,7 @@ class UserControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update password" do
-    skip 'should test this'
+    skip 'should test update password'
   end
 
   test "should get edit_email" do
@@ -24,7 +24,6 @@ class UserControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update email" do
-    skip 'should test this'
+    skip 'should test update email'
   end
-
 end

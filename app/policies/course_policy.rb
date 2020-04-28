@@ -6,15 +6,29 @@ class CoursePolicy < ApplicationPolicy
     end
   end
 
-  #def index?
-  #  super
-  #end
+  def index?
+    true
+  end
 
   def create?
-    user.staff_profile_id.present?
+    user_has_any_role?(:admin, :editor, :user) or user.staff?
+  end
+
+  def update?
+    super or is_owner
   end
 
   def show?
-    user.staff_profile == record.owner or super
+    super or is_owner
+  end
+
+  def destroy?
+    super or is_owner
+  end
+
+  protected
+
+  def is_owner
+    user.staff_profile == record.owner
   end
 end

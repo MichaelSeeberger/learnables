@@ -5,5 +5,6 @@ class CourseTest < ActiveSupport::TestCase
     course = create(:course)
     course.owner = nil
     assert_not course.valid?
+    assert course.errors[:owner].any?
   end
 end

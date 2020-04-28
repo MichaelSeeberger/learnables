@@ -30,6 +30,7 @@ class SectionTest < ActiveSupport::TestCase
 
     section2.title = section1.title
     assert_not section2.valid?
+    assert section2.errors[:title].any?
   end
 
   test "should allow same title in different courses" do
@@ -46,5 +47,6 @@ class SectionTest < ActiveSupport::TestCase
     section = create(:section, course: create(:course))
     section.title = ""
     assert_not section.valid?
+    assert section.errors[:title].any?
   end
 end

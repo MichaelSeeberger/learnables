@@ -15,4 +15,8 @@ class User < ApplicationRecord
       self.staff_profile
     end
   end
+
+  def staff?
+    self.staff_profile_id.present?
+  end
 end

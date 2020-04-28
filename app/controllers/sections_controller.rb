@@ -4,8 +4,9 @@ class SectionsController < ApplicationController
   # GET /sections
   # GET /sections.json
   def index
-    @sections = Section.all
-    authorize Section
+    @course = Course.find(params[:course_id])
+    @sections = @course.sections
+    authorize(@course, :show?)
   end
 
   # GET /sections/1
@@ -16,6 +17,7 @@ class SectionsController < ApplicationController
   # GET /sections/new
   def new
     @section = Section.new
+    @section.course = Course.find(params[:course_id])
     authorize @section
   end
 
@@ -27,11 +29,12 @@ class SectionsController < ApplicationController
   # POST /sections.json
   def create
     @section = Section.new(section_params)
+    @section.course = Course.find(params[:course_id])
     authorize @section
 
     respond_to do |format|
       if @section.save
-        format.html { redirect_to @section, notice: 'Section was successfully created.' }
+        format.html { redirect_to course_section_url(@section.course, @section), notice: 'Section was successfully created.' }
         format.json { render :show, status: :created, location: @section }
       else
         format.html { render :new }
@@ -45,7 +48,7 @@ class SectionsController < ApplicationController
   def update
     respond_to do |format|
       if @section.update(section_params)
-        format.html { redirect_to @section, notice: 'Section was successfully updated.' }
+        format.html { redirect_to course_section_url(@section.course, @section), notice: 'Section was successfully updated.' }
         format.json { render :show, status: :ok, location: @section }
       else
         format.html { render :edit }
@@ -59,7 +62,7 @@ class SectionsController < ApplicationController
   def destroy
     @section.destroy
     respond_to do |format|
-      format.html { redirect_to sections_url, notice: 'Section was successfully destroyed.' }
+      format.html { redirect_to course_sections_url(@section.course), notice: 'Section was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -71,8 +74,7 @@ class SectionsController < ApplicationController
       authorize @section
     end
 
-    # Only allow a list of trusted parameters through.
     def section_params
-      params.require(:section).permit(:title, :description, :course_id)
+      params.require(:section).permit(:title, :description)
     end
 end

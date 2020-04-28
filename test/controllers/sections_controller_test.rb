@@ -8,12 +8,11 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   setup do
-    course = create(:course)
-    @section = create(:section, course: course)
+    @course = create(:course)
+    @section = create(:section, course: @course)
 
     @unsaved_section = build(:section)
     @valid_new_params = {
-        course_id: create(:course).id,
         position: @unsaved_section.position,
         description: @unsaved_section.description,
         title: @unsaved_section.title
@@ -29,84 +28,84 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     test "should get index" do
-      get sections_url
+      get course_sections_url(@course)
       assert_response :success
     end
 
     test "should get new" do
-      get new_section_url
+      get new_course_section_url(@course)
       assert_response :success
     end
 
     test "should create section" do
       assert_difference('Section.count') do
-        post sections_url, params: {section: @valid_new_params}
+        post course_sections_url(@course), params: {section: @valid_new_params}
       end
 
-      assert_redirected_to section_url(Section.last)
+      assert_redirected_to course_section_url(@course, Section.last)
     end
 
     test "should show section" do
-      get section_url(@section)
+      get course_section_url(@course, @section)
       assert_response :success
     end
 
     test "should get edit" do
-      get edit_section_url(@section)
+      get edit_course_section_url(@course, @section)
       assert_response :success
     end
 
     test "should update section" do
-      patch section_url(@section), params: {section: @valid_new_params}
-      assert_redirected_to section_url(@section)
+      patch course_section_url(@course, @section), params: {section: @valid_new_params}
+      assert_redirected_to course_section_url(@course, @section)
     end
 
     test "should destroy section" do
       assert_difference('Section.count', -1) do
-        delete section_url(@section)
+        delete course_section_url(@course, @section)
       end
 
-      assert_redirected_to sections_url
+      assert_redirected_to course_sections_url(@course)
     end
   end
 
   class NotSignedInContext < SectionsControllerTest
     test "should get index" do
-      get sections_url
+      get course_sections_url(@course)
       assert_redirect_to_sign_in
     end
 
     test "should get new" do
-      get new_section_url
+      get new_course_section_url(@course)
       assert_redirect_to_sign_in
     end
 
     test "should create section" do
       assert_no_difference('Section.count') do
-        post sections_url, params: {section: @valid_new_params}
+        post course_sections_url(@course), params: {section: @valid_new_params}
       end
 
       assert_redirect_to_sign_in
     end
 
     test "should show section" do
-      get section_url(@section)
+      get course_section_url(@course, @section)
       assert_redirect_to_sign_in
     end
 
     test "should get edit" do
-      get edit_section_url(@section)
+      get edit_course_section_url(@course, @section)
       assert_redirect_to_sign_in
     end
 
     test "should update section" do
-      patch section_url(@section), params: {section: @valid_new_params}
+      patch course_section_url(@course, @section), params: {section: @valid_new_params}
       assert_redirect_to_sign_in
     end
 
     test "should destroy section" do
       assert_no_difference('Section.count', -1) do
-        delete section_url(@section)
+        delete course_section_url(@course, @section)
       end
 
       assert_redirect_to_sign_in
@@ -123,46 +122,46 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
 
     test "should get index" do
       assert_raises Pundit::NotAuthorizedError do
-        get sections_url
+        get course_sections_url(@course)
       end
     end
 
     test "should get new" do
       assert_raises Pundit::NotAuthorizedError do
-        get new_section_url
+        get new_course_section_url(@course)
       end
     end
 
     test "should create section" do
       assert_no_difference('Section.count') do
         assert_raises Pundit::NotAuthorizedError do
-          post sections_url, params: {section: @valid_new_params}
+          post course_sections_url(@course), params: {section: @valid_new_params}
         end
       end
     end
 
     test "should show section" do
       assert_raises Pundit::NotAuthorizedError do
-        get section_url(@section)
+        get course_section_url(@course, @section)
       end
     end
 
     test "should get edit" do
       assert_raises Pundit::NotAuthorizedError do
-        get edit_section_url(@section)
+        get edit_course_section_url(@course, @section)
       end
     end
 
     test "should update section" do
       assert_raises Pundit::NotAuthorizedError do
-        patch section_url(@section), params: {section: @valid_new_params}
+        patch course_section_url(@course, @section), params: {section: @valid_new_params}
       end
     end
 
     test "should destroy section" do
       assert_no_difference('Section.count', -1) do
         assert_raises Pundit::NotAuthorizedError do
-          delete section_url(@section)
+          delete course_section_url(@course, @section)
         end
       end
     end
