@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :sections
   resources :courses
   get 'user/edit_password'
   patch 'user/edit_password', to: 'user#update_password'

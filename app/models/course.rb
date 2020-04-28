@@ -3,4 +3,6 @@ class Course < ApplicationRecord
 
   belongs_to :owner, class_name: 'StaffProfile', foreign_key: :owner_id
   has_rich_text :description
+
+  has_many :sections
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_26_063234) do
+ActiveRecord::Schema.define(version: 2020_04_27_143334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,16 @@ ActiveRecord::Schema.define(version: 2020_04_26_063234) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
   end
 
+  create_table "sections", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.integer "position"
+    t.bigint "course_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_sections_on_course_id"
+  end
+
   create_table "staff_profiles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -107,6 +117,7 @@ ActiveRecord::Schema.define(version: 2020_04_26_063234) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "courses", "staff_profiles", column: "owner_id"
+  add_foreign_key "sections", "courses"
   add_foreign_key "users", "staff_profiles"
   add_foreign_key "users", "student_profiles"
 end
