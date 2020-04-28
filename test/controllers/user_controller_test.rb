@@ -10,20 +10,25 @@ class UserControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get edit_password" do
-    get user_edit_password_url
+    get edit_password_url
     assert_response :success
   end
 
   test "should update password" do
-    skip 'should test update password'
+    patch edit_password_url, params: {users: {password: 'mypassword', password_confirmation: 'mypassword', current_password: 'password'}}
+    assert_redirected_to root_url
+    assert @admin.valid_password?('mypassword')
   end
 
   test "should get edit_email" do
-    get user_edit_email_url
+    get edit_email_url
     assert_response :success
   end
 
   test "should update email" do
-    skip 'should test update email'
+    assert_changes '@admin.email' do
+      patch edit_email_url, params: {users: {email: 'my@email.com', password: 'password'}}
+    end
+    assert_redirected_to root_url
   end
 end

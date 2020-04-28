@@ -35,9 +35,9 @@
               <%= link_to 'Edit', edit_current_users_profile_path, class: 'dropdown-item' %>
             <% end %>
             <% if policy(:user).edit_email? %>
-              <%= link_to 'Change Email', user_edit_email_path, class: 'dropdown-item' %>
+              <%= link_to 'Change Email', edit_email_path, class: 'dropdown-item' %>
             <% end %>
-            <%= link_to 'Change Password', user_edit_password_path, class: 'dropdown-item' %>
+            <%= link_to 'Change Password', edit_password_path, class: 'dropdown-item' %>
             <div class="dropdown-divider"></div>
             <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
           </div>

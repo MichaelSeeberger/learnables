@@ -1,5 +1,5 @@
 <h1>Edit Email</h1>
-<%= bootstrap_form_for(@user, as: :users, method: :patch, url: user_edit_email_path, local: true) do |form| %>
+<%= bootstrap_form_for(@user, as: :users, method: :patch, url: edit_email_path, local: true) do |form| %>
   <%= form.email_field :email, autocomplete: 'email' %>
   <%= form.password_field :password, autocomplete: 'current-password' %>
 
