@@ -1,12 +1,4 @@
 class SectionPolicy < ApplicationPolicy
-  def index?
-    if record.class == Class
-      user_has_any_role?(:admin, :editor, :user)
-    else
-      course_policy.show?
-    end
-  end
-
   def show?
     course_policy.show?
   end

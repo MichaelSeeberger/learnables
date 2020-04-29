@@ -26,6 +26,10 @@ class CoursePolicy < ApplicationPolicy
     super or is_owner
   end
 
+  def show_sections?
+    show?
+  end
+
   protected
 
   def is_owner

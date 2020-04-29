@@ -5,7 +5,7 @@ class CoursePolicyTest < PolicyTestCase
     super
     @user = create(:user)
     @record = create(:course)
-    @available_actions = [:index, :show, :new, :create, :edit, :update, :destroy]
+    @available_actions = [:index, :show, :new, :create, :edit, :update, :destroy, :show_sections]
   end
 
   def teardown
@@ -28,7 +28,8 @@ class CoursePolicyTest < PolicyTestCase
                          create: true,
                          edit: true,
                          update: true,
-                         destroy: true
+                         destroy: true,
+                         show_sections: true
       )
     end
 
@@ -41,7 +42,8 @@ class CoursePolicyTest < PolicyTestCase
                          create: true,
                          edit: true,
                          update: true,
-                         destroy: true
+                         destroy: true,
+                         show_sections: true
       )
     end
 
@@ -54,7 +56,8 @@ class CoursePolicyTest < PolicyTestCase
                          create: true,
                          edit: true,
                          update: true,
-                         destroy: false
+                         destroy: false,
+                         show_sections: true
       )
     end
 
@@ -67,7 +70,8 @@ class CoursePolicyTest < PolicyTestCase
                          create: true,
                          edit: true,
                          update: true,
-                         destroy: false
+                         destroy: false,
+                         show_sections: true
       )
     end
 
@@ -80,7 +84,8 @@ class CoursePolicyTest < PolicyTestCase
                          create: true,
                          edit: false,
                          update: false,
-                         destroy: false
+                         destroy: false,
+                         show_sections: true
       )
     end
 
@@ -93,7 +98,8 @@ class CoursePolicyTest < PolicyTestCase
                          create: true,
                          edit: false,
                          update: false,
-                         destroy: false
+                         destroy: false,
+                         show_sections: true
       )
     end
 
@@ -105,7 +111,21 @@ class CoursePolicyTest < PolicyTestCase
                          create: true,
                          edit: true,
                          update: true,
-                         destroy: true
+                         destroy: true,
+                         show_sections: true
+      )
+    end
+
+    def test_user_no_role
+      assert_permissions(@user, @record, @available_actions,
+                         index: true,
+                         show: false,
+                         new: true,
+                         create: true,
+                         edit: false,
+                         update: false,
+                         destroy: false,
+                         show_sections: false
       )
     end
   end
@@ -124,7 +144,8 @@ class CoursePolicyTest < PolicyTestCase
                          create: false,
                          edit: false,
                          update: false,
-                         destroy: false
+                         destroy: false,
+                         show_sections: false
       )
     end
 

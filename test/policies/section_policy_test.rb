@@ -6,7 +6,7 @@ class SectionPolicyTest < PolicyTestCase
     @user = create(:user)
     @course = create(:course)
     @record = create(:section, course: @course)
-    @available_actions = [:index, :show, :new, :create, :edit, :update, :destroy]
+    @available_actions = [:show, :new, :create, :edit, :update, :destroy]
   end
 
   def teardown
@@ -23,7 +23,6 @@ class SectionPolicyTest < PolicyTestCase
     def test_global_admin
       @user.add_role :admin
       assert_permissions(@user, @record, @available_actions,
-                         index: true,
                          show: true,
                          new: true,
                          create: true,
@@ -36,7 +35,6 @@ class SectionPolicyTest < PolicyTestCase
     def test_course_admin
       @user.add_role :admin, Course
       assert_permissions(@user, @record, @available_actions,
-                         index: true,
                          show: true,
                          new: true,
                          create: true,
@@ -49,7 +47,6 @@ class SectionPolicyTest < PolicyTestCase
     def test_global_editor
       @user.add_role :editor
       assert_permissions(@user, @record, @available_actions,
-                         index: true,
                          show: true,
                          new: true,
                          create: true,
@@ -62,7 +59,6 @@ class SectionPolicyTest < PolicyTestCase
     def test_editor
       @user.add_role :editor, Course
       assert_permissions(@user, @record, @available_actions,
-                         index: true,
                          show: true,
                          new: true,
                          create: true,
@@ -75,7 +71,6 @@ class SectionPolicyTest < PolicyTestCase
     def test_global_user
       @user.add_role :user
       assert_permissions(@user, @record, @available_actions,
-                         index: true,
                          show: true,
                          new: false,
                          create: false,
@@ -88,7 +83,6 @@ class SectionPolicyTest < PolicyTestCase
     def test_user
       @user.add_role :user, Course
       assert_permissions(@user, @record, @available_actions,
-                         index: true,
                          show: true,
                          new: false ,
                          create: false,
@@ -101,7 +95,6 @@ class SectionPolicyTest < PolicyTestCase
     def test_user_own_course
       @record.course = create(:course, owner: @user.staff_profile)
       assert_permissions(@user, @record, @available_actions,
-                         index: true,
                          show: true,
                          new: true,
                          create: true,
@@ -121,7 +114,6 @@ class SectionPolicyTest < PolicyTestCase
     def test_access_for_assigned_course
       skip('Implement feature: assign course to student')
       assert_permissions(@user, @record, @available_actions,
-                         index: true,
                          show: true,
                          new: false,
                          create: false,

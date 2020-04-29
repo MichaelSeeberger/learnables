@@ -5,8 +5,8 @@ class SectionsController < ApplicationController
   # GET /sections.json
   def index
     @course = Course.find(params[:course_id])
+    authorize(@course, :show_sections?)
     @sections = @course.sections
-    authorize(@course, :show?)
   end
 
   # GET /sections/1
