@@ -5,6 +5,7 @@ class StudentProfilesController < ApplicationController
   # GET /student_profiles.json
   def index
     @student_profiles = StudentProfile.all
+    authorize StudentProfile
   end
 
   # GET /student_profiles/1
@@ -16,6 +17,7 @@ class StudentProfilesController < ApplicationController
   def new
     @student_profile = StudentProfile.new
     @student_profile.build_user
+    authorize @student_profile
   end
 
   # GET /student_profiles/1/edit
