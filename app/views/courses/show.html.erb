@@ -1,25 +1,31 @@
-<p id="notice"><%= notice %></p>
+<% provide :jumbotron do %>
+  <h1>
+    <%= @course.title %>
+  </h1>
 
-<p>
-  <strong>Title:</strong>
-  <%= @course.title %>
-</p>
-
-<div class="row row-cols-1">
-  <div class="col col-md-6"><strong>Description</strong>
-    <div class="math-content">
-      <%= @course.description %>
-    </div>
+  <div class="math-content">
+    <%= @course.description %>
   </div>
-</div>
 
-<div>
-  <strong>Owner:</strong>
-  <%= @course.owner.name %> (<%= @course.owner.user.email %>)
-</div>
+  <% if policy(@course).edit? %>
+    <div class="mt-4">
+      <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-edit' if policy(@course).edit? %>
+    </div>
+  <% end %>
+<% end %>
 
-<div class="mt-4">
-  <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-edit' if policy(@course).edit? %>
+<div class="course-sections-list row row-cols-4">
+  <% @course.sections.order(:position).each do |section| %>
+    <div class="col card section-card mx-2">
+      <div class="card-body">
+        <h5><%= section.title %></h5>
+        <div>
+          <%= section.description %>
+        </div>
+        <a href="<%= course_section_path(@course, section) %>" class="stretched-link"></a>
+      </div>
+    </div>
+  <% end %>
 </div>
 
 <%= render 'layouts/application/mathjax_init' %>

@@ -53,7 +53,15 @@
 
 <%= render 'layouts/application/toasts' %>
 
-<main role="main" class="container">
+<% if content_for? :jumbotron %>
+<div class="jumbotron main-jumbotron">
+  <div class="container-xl">
+  <%= yield :jumbotron %>
+  </div>
+</div>
+<% end %>
+
+<main role="main" class="container-xl">
   <%= yield %>
 </main>
 </body>
