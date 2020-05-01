@@ -2,7 +2,7 @@ class CoursePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       #scope.with_roles([:admin, :editor, :user], user)
-      scope.where(owner_id: user.id)
+      scope.where(owner_id: user.staff_profile_id)
     end
   end
 

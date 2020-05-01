@@ -1,38 +1,41 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Courses</h1>
-
-<% if current_user.student_profile_id.present? and @courses.empty? %>
-  <div class="jumbotron">
+<% if @courses.empty? %>
+  <% content_for :jumbotron do %>
     <h4>No Courses</h4>
-    <p>You have not yet been assigned any courses! If you think there should be courses present, talk to your teachers or staff!</p>
+    <% if current_user.staff? %>
+      <p>Create a course!</p>
+    <% else %>
+      <p>You have not yet been assigned any courses! If you think there should be courses present, talk to your teachers
+        or staff!</p>
+    <% end %>
+  <% end %>
+<% else %>
+  <h1>Courses</h1>
+
+  <div class="courses-list row row-cols-1 row-cols-md-4">
+    <% @courses.each do |course| %>
+      <div class="col mb-4">
+        <div class="card">
+          <div class="card-header">
+            <h5><%= course.title %></h5>
+          </div>
+          <div class="card-body math-content">
+            <%= course.description %>
+          </div>
+          <% if policy(course).edit? or policy(course).destroy? %>
+            <div class="card-footer">
+              <% if policy(course).edit? %>
+                <%= link_to 'Edit', edit_course_path(course), class: 'btn btn-edit' %>
+              <% end %>
+              <% if policy(course).destroy? %>
+                <%= link_to 'Delete', course, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-delete' %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   </div>
 <% end %>
-
-<div class="courses-list row row-cols-1 row-cols-md-4">
-  <% @courses.each do |course| %>
-    <div class="col mb-4">
-      <div class="card">
-        <div class="card-header">
-          <h5><%= course.title %></h5>
-        </div>
-        <div class="card-body math-content">
-          <%= course.description %>
-        </div>
-        <% if policy(course).edit? or policy(course).destroy? %>
-          <div class="card-footer">
-            <% if policy(course).edit? %>
-              <%= link_to 'Edit', edit_course_path(course), class: 'btn btn-edit' %>
-            <% end %>
-            <% if policy(course).destroy? %>
-              <%= link_to 'Delete', course, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-delete' %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-</div>
 
 <% if policy(Course).new? %>
   <%= link_to 'New Course', new_course_path, class: 'btn btn-new' %>

@@ -154,6 +154,24 @@ class CoursePolicyTest < PolicyTestCase
     end
   end
 
+  class ScopeTestContext < CoursePolicyTest
+    test "should not return courses for student with same user id as staff" do
+      student = create(:student_profile, user: create(:user, id: 101)).user
+      teacher = create(:staff_profile, id: 101)
+      create(:course, owner: teacher)
+      policy_scope = policy_class::Scope.new(student, Course).resolve
+      assert_equal 0, policy_scope.count
+    end
+
+    test "should not return courses for student with same id as staff" do
+      student = create(:student_profile, id: 101).user
+      teacher = create(:staff_profile, id: 101)
+      create(:course, owner: teacher)
+      policy_scope = policy_class::Scope.new(student, Course).resolve
+      assert_equal 0, policy_scope.count
+    end
+  end
+
   protected
   def policy_class
     CoursePolicy
