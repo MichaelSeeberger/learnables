@@ -16,7 +16,7 @@
 
 <% if policy(@course).rearrange_sections? %>
   <%= content_tag :div, '', id: 'sortableCourseSections', data: @sections.to_json, 'data-course-id': @course.id %>
-  <% content_for :js_tags, javascript_pack_tag('sortable_components_list') %>
+  <% content_for :js_tags, javascript_pack_tag('sortable_components_list', 'data-turbolinks-track': 'reload') %>
 <% else %>
 <div class="course-sections-list sortable-container">
   <% @sections.each do |section| %>
