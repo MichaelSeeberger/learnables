@@ -30,6 +30,7 @@
 .sortable-container.edit-in-progress {
   h4, div, span {
     cursor: default;
+    user-select: none;
   }
 }
 
