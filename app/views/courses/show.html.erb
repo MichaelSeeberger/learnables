@@ -14,9 +14,13 @@
   <% end %>
 <% end %>
 
-<div class="course-sections-list row row-cols-4">
-  <% @course.sections.order(:position).each do |section| %>
-    <div class="col card section-card mx-2">
+<% if policy(@course).rearrange_sections? %>
+  <%= content_tag :div, '', id: 'sortableCourseSections', data: @sections.to_json, 'data-course-id': @course.id %>
+  <% content_for :js_tags, javascript_pack_tag('sortable_components_list') %>
+<% else %>
+<div class="course-sections-list sortable-container">
+  <% @sections.each do |section| %>
+    <div class="card section-card sortable-item">
       <div class="card-body">
         <h5><%= section.title %></h5>
         <div>
@@ -27,5 +31,6 @@
     </div>
   <% end %>
 </div>
+<% end %>
 
 <%= render 'layouts/application/mathjax_init' %>

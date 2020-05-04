@@ -21,16 +21,15 @@
           <div class="card-body math-content">
             <%= course.description %>
           </div>
-          <% if policy(course).edit? or policy(course).destroy? %>
-            <div class="card-footer">
-              <% if policy(course).edit? %>
-                <%= link_to 'Edit', edit_course_path(course), class: 'btn btn-edit' %>
-              <% end %>
-              <% if policy(course).destroy? %>
-                <%= link_to 'Delete', course, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-delete' %>
-              <% end %>
-            </div>
-          <% end %>
+          <div class="card-footer">
+            <%= link_to 'Show', course, class: 'btn btn-show' %>
+            <% if policy(course).edit? %>
+              <%= link_to 'Edit', edit_course_path(course), class: 'btn btn-edit' %>
+            <% end %>
+            <% if policy(course).destroy? %>
+              <%= link_to 'Delete', course, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-delete' %>
+            <% end %>
+          </div>
         </div>
       </div>
     <% end %>

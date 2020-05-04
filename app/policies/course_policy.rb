@@ -1,8 +1,30 @@
 class CoursePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      #scope.with_roles([:admin, :editor, :user], user)
-      scope.where(owner_id: user.staff_profile_id)
+      if user.staff?
+        if user.has_role? :admin, Course
+          scope.all
+        else
+          sql = """
+          SELECT courses.*
+          FROM courses
+          LEFT JOIN roles
+            ON
+                (roles.resource_type='Course' OR roles.resource_type IS NULL)
+            AND (roles.resource_id IS NULL OR roles.resource_id=courses.id OR courses.owner_id=:staff_profile_id)
+            AND (roles.name IN ('admin', 'editor', 'viewer'))
+          LEFT JOIN users_roles
+            ON roles.id=users_roles.role_id
+          LEFT JOIN users
+            ON users.id=users_roles.user_id
+          WHERE users_roles.user_id=:user_id
+          GROUP BY courses.id
+          """
+          scope.find_by_sql([sql, {staff_profile_id: user.staff_profile_id, user_id: user.id}])
+        end
+      else
+        scope.none
+      end
     end
   end
 
@@ -28,6 +50,10 @@ class CoursePolicy < ApplicationPolicy
 
   def show_sections?
     show?
+  end
+
+  def rearrange_sections?
+    edit?
   end
 
   protected

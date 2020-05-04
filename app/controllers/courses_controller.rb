@@ -10,6 +10,7 @@ class CoursesController < ApplicationController
   # GET /courses/1
   # GET /courses/1.json
   def show
+    @sections = @course.sections.order(:position)
   end
 
   # GET /courses/new

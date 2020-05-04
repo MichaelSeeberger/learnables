@@ -5,7 +5,7 @@ class CoursePolicyTest < PolicyTestCase
     super
     @user = create(:user)
     @record = create(:course)
-    @available_actions = [:index, :show, :new, :create, :edit, :update, :destroy, :show_sections]
+    @available_actions = [:index, :show, :new, :create, :edit, :update, :destroy, :show_sections, :rearrange_sections]
   end
 
   def teardown
@@ -29,7 +29,8 @@ class CoursePolicyTest < PolicyTestCase
                          edit: true,
                          update: true,
                          destroy: true,
-                         show_sections: true
+                         show_sections: true,
+                         rearrange_sections: true
       )
     end
 
@@ -43,7 +44,8 @@ class CoursePolicyTest < PolicyTestCase
                          edit: true,
                          update: true,
                          destroy: true,
-                         show_sections: true
+                         show_sections: true,
+                         rearrange_sections: true
       )
     end
 
@@ -57,7 +59,8 @@ class CoursePolicyTest < PolicyTestCase
                          edit: true,
                          update: true,
                          destroy: false,
-                         show_sections: true
+                         show_sections: true,
+                         rearrange_sections: true
       )
     end
 
@@ -71,7 +74,8 @@ class CoursePolicyTest < PolicyTestCase
                          edit: true,
                          update: true,
                          destroy: false,
-                         show_sections: true
+                         show_sections: true,
+                         rearrange_sections: true
       )
     end
 
@@ -85,7 +89,8 @@ class CoursePolicyTest < PolicyTestCase
                          edit: false,
                          update: false,
                          destroy: false,
-                         show_sections: true
+                         show_sections: true,
+                         rearrange_sections: false
       )
     end
 
@@ -99,7 +104,8 @@ class CoursePolicyTest < PolicyTestCase
                          edit: false,
                          update: false,
                          destroy: false,
-                         show_sections: true
+                         show_sections: true,
+                         rearrange_sections: false
       )
     end
 
@@ -112,7 +118,8 @@ class CoursePolicyTest < PolicyTestCase
                          edit: true,
                          update: true,
                          destroy: true,
-                         show_sections: true
+                         show_sections: true,
+                         rearrange_sections: true
       )
     end
 
@@ -125,7 +132,8 @@ class CoursePolicyTest < PolicyTestCase
                          edit: false,
                          update: false,
                          destroy: false,
-                         show_sections: false
+                         show_sections: false,
+                         rearrange_sections: false
       )
     end
   end
@@ -133,7 +141,7 @@ class CoursePolicyTest < PolicyTestCase
   class StudentUserContext < CoursePolicyTest
     def setup
       super
-      student_profile = create(:student_profile, user: @user)
+      create(:student_profile, user: @user)
     end
 
     def test_student_access
@@ -145,7 +153,8 @@ class CoursePolicyTest < PolicyTestCase
                          edit: false,
                          update: false,
                          destroy: false,
-                         show_sections: false
+                         show_sections: false,
+                         rearrange_sections: false
       )
     end
 
