@@ -1,6 +1,8 @@
 class Course < ApplicationRecord
   resourcify
 
+  validates :title, presence: true
+
   belongs_to :owner, class_name: 'StaffProfile', foreign_key: :owner_id
   has_rich_text :description
 

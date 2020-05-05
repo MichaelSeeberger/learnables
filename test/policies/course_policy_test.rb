@@ -179,6 +179,52 @@ class CoursePolicyTest < PolicyTestCase
       policy_scope = policy_class::Scope.new(student, Course).resolve
       assert_equal 0, policy_scope.count
     end
+
+    test "should return correct amount for staff" do
+      create(:staff_profile, user: @user)
+      user2_profile = create(:staff_profile)
+      course2 = create(:course, owner: user2_profile)
+      create(:course, owner: @user.staff_profile)
+      create(:course, owner: user2_profile)
+      @user.add_role :editor, course2
+      policy_scope = policy_class::Scope.new(@user, Course).resolve
+      assert_equal 2, policy_scope.count
+    end
+
+    test "should return all for admin" do
+      create(:admin_profile, user: @user)
+      user2_profile = create(:staff_profile)
+      course2 = create(:course, owner: user2_profile)
+      create(:course, owner: @user.staff_profile)
+      create(:course, owner: user2_profile)
+      @user.add_role :editor, course2
+      policy_scope = policy_class::Scope.new(@user, Course).resolve
+      assert_equal Course.count, policy_scope.count
+    end
+
+    test "should return all for editor" do
+      create(:staff_profile, user: @user)
+      @user.add_role :editor, Course
+      user2_profile = create(:staff_profile)
+      course2 = create(:course, owner: user2_profile)
+      create(:course, owner: @user.staff_profile)
+      create(:course, owner: user2_profile)
+      @user.add_role :editor, course2
+      policy_scope = policy_class::Scope.new(@user, Course).resolve
+      assert_equal Course.count, policy_scope.count
+    end
+
+    test "should return all for user" do
+      create(:staff_profile, user: @user)
+      @user.add_role :user, Course
+      user2_profile = create(:staff_profile)
+      course2 = create(:course, owner: user2_profile)
+      create(:course, owner: @user.staff_profile)
+      create(:course, owner: user2_profile)
+      @user.add_role :editor, course2
+      policy_scope = policy_class::Scope.new(@user, Course).resolve
+      assert_equal Course.count, policy_scope.count
+    end
   end
 
   protected

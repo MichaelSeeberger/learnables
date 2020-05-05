@@ -17,6 +17,12 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
         description: @unsaved_section.description,
         title: @unsaved_section.title
     }
+
+    @invalid_new_params = {
+        position: @unsaved_section.position,
+        description: @unsaved_section.description,
+        title: ''
+    }
   end
 
   class AdminContext < SectionsControllerTest
@@ -45,6 +51,12 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to course_section_url(@course, Section.last)
     end
 
+    test "should not create section with invalid params" do
+      assert_no_difference('Section.count') do
+        post course_sections_url(@course), params: {section: @invalid_new_params}
+      end
+    end
+
     test "should show section" do
       get course_section_url(@course, @section)
       assert_response :success
@@ -58,6 +70,13 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
     test "should update section" do
       patch course_section_url(@course, @section), params: {section: @valid_new_params}
       assert_redirected_to course_section_url(@course, @section)
+    end
+
+    test "should not update with invalid section params" do
+      assert_no_changes '@section.title' do
+        patch course_section_url(@course, @section), params: {section: @invalid_new_params}
+        @section.reload
+      end
     end
 
     test "should destroy section" do

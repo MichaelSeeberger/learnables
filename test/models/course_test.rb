@@ -8,6 +8,13 @@ class CourseTest < ActiveSupport::TestCase
     assert course.errors[:owner].any?
   end
 
+  test "should have title" do
+    course = create(:course)
+    course.title = ''
+    assert_not course.valid?
+    assert course.errors[:title].any?
+  end
+
   test "should move from to with from > to" do
     course = create(:course)
     sections = []

@@ -32,6 +32,12 @@ class CoursesControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to course_url(Course.last)
     end
 
+    test "should not create course with invalid params" do
+      assert_no_difference('Course.count') do
+        post courses_url, params: {course: {owner_id: @course.owner_id, title: ''}}
+      end
+    end
+
     test "should show course" do
       get course_url(@course)
       assert_response :success
@@ -45,6 +51,13 @@ class CoursesControllerTest < ActionDispatch::IntegrationTest
     test "should update course" do
       patch course_url(@course), params: {course: {owner_id: @course.owner_id, title: @course.title}}
       assert_redirected_to course_url(@course)
+    end
+
+    test "should not update course with invalid params" do
+      assert_no_changes '@course.title' do
+        patch course_url(@course), params: {course: {owner_id: @course.owner_id, title: ''}}
+        @course.reload
+      end
     end
 
     test "should destroy course" do

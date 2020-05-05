@@ -2,7 +2,7 @@ class CoursePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user.staff?
-        if user.has_role? :admin, Course
+        if user.has_role?(:admin, Course) or user.has_role?(:editor, Course) or user.has_role?(:viewer, Course)
           scope.all
         else
           sql = """
@@ -12,7 +12,7 @@ class CoursePolicy < ApplicationPolicy
             ON
                 (roles.resource_type='Course' OR roles.resource_type IS NULL)
             AND (roles.resource_id IS NULL OR roles.resource_id=courses.id OR courses.owner_id=:staff_profile_id)
-            AND (roles.name IN ('admin', 'editor', 'viewer'))
+            AND (roles.name IN ('admin', 'editor', 'user'))
           LEFT JOIN users_roles
             ON roles.id=users_roles.role_id
           LEFT JOIN users
