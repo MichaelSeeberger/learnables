@@ -1,6 +1,6 @@
-<%= form_with(model: [section.course, section], local: true) do |form| %>
+<%= bootstrap_form_with(model: [section.course, section], local: true) do |form| %>
   <% if section.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="alert alert-danger">
       <h2><%= pluralize(section.errors.count, "error") %> prohibited this section from being saved:</h2>
 
       <ul>
@@ -11,22 +11,15 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
+  <%= form.text_field :title %>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_field :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :course_id %>
-    <%= form.text_field :course_id %>
-  </div>
+  <%= form.text_area :description, rows: '6' %>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= link_to 'Cancel',
+                section.persisted? ? [@section.course, @section] : @section.course,
+                class: 'btn btn-cancel ml-2',
+                data: {confirm: 'Are you sure?'} %>
+    <%= form.submit class: 'btn btn-submit' %>
   </div>
 <% end %>
