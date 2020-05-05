@@ -1,7 +1,12 @@
 class CourseSectionsChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
-    @course = Course.find(params[:id])
+    begin
+      @course = Course.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      reject
+      return
+    end
+
     unless policy.rearrange_sections?
       reject
       return
@@ -20,6 +25,7 @@ class CourseSectionsChannel < ApplicationCable::Channel
   end
 
   private
+
   def policy
     CoursePolicy.new(current_user, @course)
   end

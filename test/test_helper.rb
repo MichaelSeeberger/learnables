@@ -3,12 +3,13 @@ Warning[:deprecated] = false
 
 
 ENV['RAILS_ENV'] ||= 'test'
+ENV['COVERAGE'] ||= 'false'
 require_relative '../config/environment'
 require 'rails/test_help'
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
-  parallelize(workers: :number_of_processors)
+  parallelize(workers: :number_of_processors) if ENV['COVERAGE'] == 'false'
 
   include FactoryBot::Syntax::Methods
 

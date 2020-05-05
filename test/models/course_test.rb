@@ -51,6 +51,16 @@ class CourseTest < ActiveSupport::TestCase
         assert_equal section.position, i, "expected position #{i} to not have been changed, is at #{section.position}"
       end
     end
+  end
 
+  test "should reset positions" do
+    course = create(:course)
+    5.times do |i|
+      course.sections << create(:section, course: course, position: i*2+1)
+    end
+    course.tidy_section_positions!
+    course.sections.order(:position).each_with_index do |section, index|
+      assert_equal section.position, index
+    end
   end
 end
