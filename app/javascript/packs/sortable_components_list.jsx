@@ -40,6 +40,13 @@ class SortableComponent extends React.Component {
         })
     }
 
+    shouldCancelStart(e) {
+        // Cancel sorting if the event target is an anchor tag (`a`)
+        if (e.target.tagName.toLowerCase() === 'a') {
+            return true; // Return true to cancel sorting
+        }
+    }
+
     onSortEnd = ({oldIndex, newIndex}) => {
         if (oldIndex === newIndex) {
             return
@@ -55,6 +62,7 @@ class SortableComponent extends React.Component {
             <SortableList
                 items={this.state.items}
                 onSortEnd={this.onSortEnd}
+                shouldCancelStart={this.shouldCancelStart}
                 axis="xy"
                 helperClass="SortableHelper"
                 hasConnectionError={this.state.wasDisconnected || this.state.isRejected}
