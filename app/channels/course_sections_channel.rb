@@ -2,7 +2,12 @@ class CourseSectionsChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
     @course = Course.find(params[:id])
-    stream_for @course if policy.rearrange_sections?
+    unless policy.rearrange_sections?
+      reject
+      return
+    end
+
+    stream_for @course
   end
 
   def unsubscribed
