@@ -24,4 +24,10 @@ class UserTest < ActiveSupport::TestCase
     create(:staff_profile, user: @user)
     assert @user.staff?
   end
+
+  test "validates email" do
+    @user.email = 'email'
+    assert @user.invalid?
+    assert @user.errors[:email].any?
+  end
 end

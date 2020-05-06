@@ -18,7 +18,22 @@ class UserControllerTest < ActionDispatch::IntegrationTest
     test "should update password" do
       patch edit_password_url, params: {users: {password: 'mypassword', password_confirmation: 'mypassword', current_password: 'password'}}
       assert_redirected_to root_url
+      @admin.reload
       assert @admin.valid_password?('mypassword')
+    end
+
+    test "should not update password when old password is incorrect" do
+      patch edit_password_url, params: {users: {password: 'mypassword', password_confirmation: 'mypassword', current_password: 'incorrect'}}
+      @admin.reload
+      assert @admin.valid_password?('password')
+      assert @admin.errors[:current_password].any?
+    end
+
+    test "should not update passwords if password does not match password_confirmation" do
+      patch edit_password_url, params: {users: {password: 'mypassword', password_confirmation: 'not-matching', current_password: 'password'}}
+      assert @admin.errors[:password_confirmation].any?
+      @admin.reload
+      assert @admin.valid_password?('password')
     end
 
     test "should get edit_email" do
@@ -31,6 +46,23 @@ class UserControllerTest < ActionDispatch::IntegrationTest
         patch edit_email_url, params: {users: {email: 'my@email.com', password: 'password'}}
       end
       assert_redirected_to root_url
+    end
+
+    test "should not update email when password is incorrect" do
+      assert_no_changes '@admin.email' do
+        patch edit_email_url, params: {users: {email: 'my@email.com', password: 'incorrect-password'}}
+        @admin.reload
+      end
+      assert @admin.errors[:password].any?
+    end
+
+    test "should not update email when email is invalid" do
+      assert_no_changes '@admin.email' do
+        patch edit_email_url, params: {users: {email: 'email?', password: 'password'}}
+        @admin.reload
+      end
+      assert @admin.errors[:email].any?
+      assert_response :success
     end
   end
 
