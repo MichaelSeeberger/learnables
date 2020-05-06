@@ -38,6 +38,7 @@ class SortableComponent extends React.Component {
             isConnected: false,
             wasDisconnected: true
         })
+        $("#sortableListConnectionInfo").addClass('show')
     }
 
     shouldCancelStart(e) {

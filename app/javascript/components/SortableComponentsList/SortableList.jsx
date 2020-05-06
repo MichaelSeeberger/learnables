@@ -15,6 +15,7 @@ const SortableList = SortableContainer(({items, hasConnectionError, isConnected}
                     key={`${item.id}`}
                     index={index}
                     item={item}
+                    disabled={!isConnected || hasConnectionError}
                 />
             ))}
         </div>
