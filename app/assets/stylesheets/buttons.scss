@@ -1,6 +1,19 @@
-
+.btn-new,
 .btn-back,
 .btn-edit,
+.btn-show,
 .btn-cancel {
   @extend .btn-outline-secondary;
+}
+
+.btn-cancel:not(:last-child) {
+  @extend .mr-2;
+}
+
+.btn-submit {
+  @extend .btn-outline-primary;
+}
+
+.btn-delete {
+  @extend .btn-outline-danger;
 }

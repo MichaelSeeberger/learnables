@@ -7,7 +7,7 @@ class UserController < ApplicationController
   def update_password
     @user = current_user
     authorize @user
-    unless @user.valid_password?(params[:users][:password])
+    unless @user.valid_password?(params[:users][:current_password])
       flash.now[:alert] = 'Did not update password'
       @user.errors.add(:current_password, 'Wrong password')
       render 'edit_password'

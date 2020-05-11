@@ -1,3 +1,16 @@
+# By default, the following rules apply for access
+#
+# ┌────────┬───────┬──────┬─────────────┬────────────┬─────────┐
+# │  Role  │ index │ show │ update/edit │ new/create │ destroy │
+# ├────────┼───────┼──────┼─────────────┼────────────┼─────────┤
+# │ admin  │ true  │ true │ true        │ true       │ true    │
+# │ editor │ true  │ true │ true        │ false      │ false   │
+# │ user   │ true  │ true │ false       │ false      │ false   │
+# └────────┴───────┴──────┴─────────────┴────────────┴─────────┘
+#
+# Subclassing notes:
+#   - new? calls create?, so when overriding create? this will change new? as well.
+#   - edit? calls update?, so when overriding update? this will change edit? as well.
 class ApplicationPolicy
   attr_reader :user, :record
 
@@ -7,15 +20,15 @@ class ApplicationPolicy
   end
 
   def index?
-    false
+    user_has_any_role?(:admin, :editor, :user)
   end
 
   def show?
-    false
+    user_has_any_role?(:admin, :editor, :user)
   end
 
   def create?
-    user.has_role?(:admin) or user.has_role?(:admin, record)
+    user_has_any_role?(:admin)
   end
 
   def new?
@@ -23,8 +36,7 @@ class ApplicationPolicy
   end
 
   def update?
-    #false
-    create? or user.has_role?(:editor, record)
+    user_has_any_role?(:admin, :editor)
   end
 
   def edit?
@@ -32,7 +44,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    false
+    user.has_role? :admin, record
   end
 
   class Scope
@@ -46,5 +58,15 @@ class ApplicationPolicy
     def resolve
       scope.all
     end
+  end
+
+  private
+
+  def user_has_any_role?(*roles)
+    roles.each do |role|
+      return true if user.has_role?(role, record)
+    end
+
+    false
   end
 end

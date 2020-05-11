@@ -1,0 +1,82 @@
+@import "sections_variables";
+
+.sortable-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: auto;
+  min-height: 332px;
+  overflow-y: auto;
+
+  .sortable-item {
+    display: flex;
+    position: relative;
+    flex-basis: 100%;
+    flex-direction: column;
+    width: $section-card-width;
+    max-width: $section-card-width;
+    height: $section-card-height;
+
+    .inner-item {
+      max-width: 100%;
+      max-height: 100%;
+      align-items: center;
+      justify-content: center;
+      overflow: scroll;
+    }
+  }
+}
+
+.sortable-container.edit-in-progress {
+  h4, div, span {
+    cursor: default;
+    user-select: none;
+  }
+}
+
+.SortableList {
+  position: relative;
+  z-index: 0;
+  background-color: #F3F3F3;
+  border: 1px solid #EFEFEF;
+  border-radius: 3px;
+  outline: none;
+
+  width: 400px;
+  height: auto;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #E0E0E0;
+  list-style: none;
+  padding: 0;
+}
+
+.SortableItem {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  padding: 0 20px;
+  background-color: #FFF;
+  border-bottom: 1px solid #EFEFEF;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.SortableHelper {
+  box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 6px, rgba(0, 0, 0, 0.075) 0px 1px 4px;
+  background-color: rgba(255, 255, 255, 0.8);
+  cursor: row-resize;
+  overflow: hidden;
+}

@@ -10,10 +10,6 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- * require bootstrap
- * require rails_bootstrap_forms
- * require_tree .
- * require_self
  */
 
 @import "bootstrap/scss/bootstrap";
@@ -23,3 +19,9 @@
 @import "staff_profiles";
 @import "student_profiles";
 @import "custom_toasts";
+@import "courses";
+@import "sections";
+@import "sortable_items";
+@import "application_layout_jumbotron";
+
+@import "actiontext";

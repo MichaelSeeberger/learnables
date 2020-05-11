@@ -5,6 +5,7 @@ class StaffProfilesController < ApplicationController
   # GET /staff_profiles.json
   def index
     @staff_profiles = StaffProfile.all
+    authorize StaffProfile
   end
 
   # GET /staff_profiles/1
@@ -16,6 +17,7 @@ class StaffProfilesController < ApplicationController
   def new
     @staff_profile = StaffProfile.new
     @staff_profile.build_user
+    authorize @staff_profile
   end
 
   # GET /staff_profiles/1/edit

@@ -1,0 +1,36 @@
+<% provide :jumbotron do %>
+  <h1>
+    <%= @course.title %>
+  </h1>
+
+  <div class="math-content">
+    <%= @course.description %>
+  </div>
+
+  <% if policy(@course).edit? %>
+    <div class="mt-4">
+      <%= link_to 'Edit', edit_course_path(@course), class: 'btn btn-edit' if policy(@course).edit? %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if policy(@course).rearrange_sections? %>
+  <%= content_tag :div, '', id: 'sortableCourseSections', data: @sections.to_json, 'data-course-id': @course.id %>
+  <% content_for :js_tags, javascript_pack_tag('sortable_components_list', 'data-turbolinks-track': 'reload') %>
+<% else %>
+<div class="course-sections-list sortable-container">
+  <% @sections.each do |section| %>
+    <div class="card section-card sortable-item">
+      <div class="card-body">
+        <h5><%= section.title %></h5>
+        <div>
+          <%= section.description %>
+        </div>
+        <a href="<%= course_section_path(@course, section) %>" class="stretched-link"></a>
+      </div>
+    </div>
+  <% end %>
+</div>
+<% end %>
+
+<%= render 'layouts/application/mathjax_init' %>
