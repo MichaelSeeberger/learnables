@@ -1,4 +1,7 @@
-# IMPORTANT remove this line as soon as rails fixed using deprecated methods (6.0.3?)
+# IMPORTANT remove Warning[:deprecated] = false line as soon as the following gems fixed using deprecated feature (ruby 2.7):
+# * rolify
+# * devise
+# * sprockets
 Warning[:deprecated] = false
 
 
